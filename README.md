@@ -1,32 +1,4 @@
-se-app
-=====
+# CEN4020-ExtraCredit1
+ 
+For this assignment, I implemented a Post+Delete page, while keeping everything else the same by intially cloning the repo. The following files were edited/added: PostController.java, header.html, and postDelete.html. You can run this code by cloning the repo and then running it in IntelliJ. 
 
-A sample web application in Java using the Spring Boot Framework.
-
-Requirement 
-============
-
-* JDK 1.8 or later
-* Gradle 4
-
-Run
-===
-
-`./gradlew bootRun` or the "Run" task in IntelliJ IDEA
-
-Layout
-=====
-Create new post (if logged in)
-* `https://localhost:8443`
-
-View post history
-* `https://localhost:8443/history`
-
-Health check (for running in e.g. Docker) 
-* `https://localhost:8443/actuator/health`
-
-Credits
-=====
-Original Code - Ilia Zlatkin
-
-Improvements - Darin Debrestian

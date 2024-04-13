@@ -21,6 +21,7 @@ public class PostController {
 
     private static final String logAttr = "LOGGERPOST";
 
+
     LoggerPost getLogger(HttpSession sesh) {
         String logPath = env.getProperty("post.log.file");
         String known_hosts_path = env.getProperty("known_hosts_path");
@@ -123,5 +124,37 @@ public class PostController {
         return "delete";
     }
 
-}
+    @RequestMapping("/postDelete")
+    public String postOrDeletePage(Model model, HttpSession session) {
+        LoggerPost pl = getLogger(session);
+        model.addAttribute("isLoggedIn", pl.GetLoggedIn());
+        // Initialize
+        return "postDelete"; // get request to view page
+    }
 
+    @PostMapping("/postDelete")
+    public String PostOrDelete(@RequestParam("text") String text,
+            @RequestParam(value = "action", required = false) String action,
+            Model model, HttpSession session) {
+
+        LoggerPost pl = getLogger(session);
+        if (!pl.GetLoggedIn()) { //if not logged in, redirect
+            return "redirect:/login";
+        }
+
+        //user input
+        if ("post".equals(action)) { //checks if action is post and if so add to database
+            pl.PostToDB(text);
+            model.addAttribute("message", "Text posted successfully.");
+        } else if ("delete".equals(action)) {
+            boolean deleted = pl.DeletePostFromDB(text); //checks if action is delete and if so delete from database
+            model.addAttribute("message", deleted ? "Text deleted successfully." : "Text could not be deleted.");
+        } else {
+            model.addAttribute("message", "Invalid action.");
+        }
+
+        model.addAttribute("isLoggedIn", pl.GetLoggedIn());
+        return "postDelete";
+    }
+
+}
